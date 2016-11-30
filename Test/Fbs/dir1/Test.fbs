@@ -1,0 +1,10 @@
+include "AddressBook.fbs";
+
+namespace Test;
+
+table TestMessage {
+    ab:AddressBook;
+    bb:[byte];
+}
+
+root_type TestMessage;

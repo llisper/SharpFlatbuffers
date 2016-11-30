@@ -1,0 +1,8 @@
+namespace Test;
+
+table TestMessage2 {
+    name:string;
+    id:int;
+}
+
+root_type TestMessage2;
