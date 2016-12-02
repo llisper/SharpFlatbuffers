@@ -59,9 +59,7 @@ namespace FbsGen
             {
                 string dir = Path.GetDirectoryName(flatbuffersLocation);
                 string lib = Path.GetFileName(flatbuffersLocation);
-                string pdb = Path.GetFileNameWithoutExtension(flatbuffersLocation) + ".pdb";
                 File.Copy(flatbuffersLocation, Path.Combine("output", lib));
-                File.Copy(Path.Combine(dir, pdb), Path.Combine("output", pdb));
             }
         }
     }
