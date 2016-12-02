@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace FlatBuffers
 {
@@ -95,6 +92,7 @@ namespace FlatBuffers
             int slots = AvailableSlots(pool);
             if (slots < pool.Count)
             {
+                buffer.Reset();
                 pool[slots] = buffer;
                 buffer = null;
             }
