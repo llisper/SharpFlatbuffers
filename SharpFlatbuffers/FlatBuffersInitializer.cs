@@ -17,7 +17,7 @@ namespace FlatBuffers
 
             foreach (Type type in protocolAssembly.GetExportedTypes())
             {
-                if (type.IsSealed && type.IsSubclassOf(typeof(Table)))
+                if (type.IsSealed && (type.IsSubclassOf(typeof(Table)) || type.IsSubclassOf(typeof(Struct))))
                 {
                     InstancePool.Add(type);
                     MethodInfo[] methods = type.GetMethods(BindingFlags.Public | BindingFlags.Static);

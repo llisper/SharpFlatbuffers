@@ -5,25 +5,28 @@ namespace FlatBuffers
 {
     public static class InstancePool
     {
-        internal static Dictionary<Type, Table> sInstances = new Dictionary<Type, Table>();
+        internal static Dictionary<Type, object> sInstances = new Dictionary<Type, object>();
 
-        internal static Table Add(Type type)
+        internal static object Add(Type type)
         {
-            if (!type.IsSubclassOf(typeof(Table)))
-                throw new ArgumentException(type.Name + " is not a FlatBuffers.Table");
+            if (!type.IsSubclassOf(typeof(Table)) &&
+                !type.IsSubclassOf(typeof(Struct)))
+            {
+                throw new ArgumentException(type.Name + " is neither a FlatBuffers.Table not a FlatBuffers.Struct");
+            }
 
-            Table table = (Table)Activator.CreateInstance(type);
-            sInstances.Add(type, table);
-            return table;
+            object inst = Activator.CreateInstance(type);
+            sInstances.Add(type, inst);
+            return inst;
         }
 
-        public static T Get<T>() where T : Table
+        public static T Get<T>()
         {
             Type type = typeof(T);
-            Table table;
-            if (!sInstances.TryGetValue(type, out table))
-                table = Add(type);
-            return (T)table;
+            object inst;
+            if (!sInstances.TryGetValue(type, out inst))
+                inst = Add(type);
+            return (T)inst;
         }
     }
 }

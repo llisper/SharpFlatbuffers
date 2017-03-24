@@ -22,7 +22,10 @@ namespace FbsGen
             foreach (string path in paths)
             {
                 foreach (string file in Directory.EnumerateFiles(path))
-                    sb.Append(' ').Append(file);
+                {
+                    if (file.EndsWith(".fbs"))
+                        sb.Append(' ').Append(file);
+                }
             }
             return sb.ToString();
         }
