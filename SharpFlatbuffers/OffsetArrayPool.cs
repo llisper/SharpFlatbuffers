@@ -51,7 +51,8 @@ namespace FlatBuffers
 
         internal static IList Add(Type type)
         {
-            if (!sArrays.ContainsKey(type))
+            IList list;
+            if (!sArrays.TryGetValue(type, out list))
             {
                 // initial content: 4,8,16,32,64 <= each size reserved 2 arrays
                 Type arrayType = typeof(Array<>).MakeGenericType(type);
@@ -61,7 +62,7 @@ namespace FlatBuffers
                     null,
                     new Type[] { typeof(int) },
                     null);
-                IList list = (IList)Activator.CreateInstance(listType);
+                list = (IList)Activator.CreateInstance(listType);
                 if (null != ci)
                 {
                     for (int i = minSizePOT; i <= maxSizePOT; ++i)
@@ -74,9 +75,8 @@ namespace FlatBuffers
                     }
                 }
                 sArrays.Add(type, list);
-                return list;
             }
-            throw new ArgumentException(type.Name + " already exists in sArrays");
+            return list;
         }
         #endregion internal
 
